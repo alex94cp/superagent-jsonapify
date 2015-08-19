@@ -1,0 +1,29 @@
+{
+  "name": "superagent-jsonapify",
+  "version": "1.0.0",
+  "description": "A lightweight json-api client addon for superagent",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alex94puchades/superagent-jsonapify.git"
+  },
+  "keywords": [
+    "superagent",
+    "jsonapify",
+    "jsonapi",
+    "json-api",
+    "json",
+    "api",
+    "rest",
+    "client"
+  ],
+  "author": "Alejandro Caravaca Puchades <alex94puchades@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/alex94puchades/superagent-jsonapify/issues"
+  },
+  "homepage": "https://github.com/alex94puchades/superagent-jsonapify#readme"
+}
