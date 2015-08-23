@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A lightweight json-api client addon for superagent",
   "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
     "test": "mocha"
   },
