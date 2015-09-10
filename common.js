@@ -27,22 +27,18 @@ function parseResourceDataObject(response, data) {
 		Object.defineProperty(result, name, { value: value });
 	});
 	_.each(data.relationships, function(value, name) {
-		if (_.isArray(value.data)) {
+		if (_.isArray(value)) {
 			Object.defineProperty(result, name, { get: _.memoize(function() {
-				return _(value.data).map(function(item) {
-					var resdata = _.find(response.included, function(inc) {
-						return inc.id === item.id;
-					});
+				return _(value).map(function(related) {
+					var resdata = _.find(response.included, 'id', related.id);
 					if(resdata)
 						return parseResourceDataObject(response, resdata);
 				}).compact().value();
 			}) });
-		} else if (value.data) {
-			Object.defineProperty(result, name + '_id', { value: value.data.id });
+		} else if (value) {
+			Object.defineProperty(result, name + '_id', { value: value.id });
 			Object.defineProperty(result, name, { get: _.memoize(function() {
-				var resdata = _.find(response.included, function(inc) {
-					return inc.id === value.data.id;
-				});
+				var resdata = _.find(response.included, 'id', value.id);
 				return resdata ? parseResourceDataObject(response, resdata)
 				               : null;
 			}) });
