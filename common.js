@@ -27,10 +27,35 @@ function parseResourceDataObject(response, data) {
 		Object.defineProperty(result, name, { value: value });
 	});
 	_.each(data.relationships, function(value, name) {
-		Object.defineProperty(result, name, { get: _.memoize(function() {
-			var resdata = _.find(response.included, value);
-			return parseResourceDataObject(response, resdata);
-		}) });
+		if(_.isArray(value.data)){
+        		Object.defineProperty(result, name, { get: _.memoize(function() {
+                
+            			return _.chain(value.data)
+                    			.map(function(item){
+	                    			var resdata = _.find(response.included, function(inc){ return inc.id === item.id;});
+	                    			if(resdata){
+	                      				return parseResourceDataObject(response, resdata);
+	                    			}
+	                    		})
+	                    		.filter(function(item){ return item !== null; })
+	                    		.value();
+
+          		})});
+      		}else{
+        		if(value.data){
+          			Object.defineProperty(result, name + "_id", { value: value.data.id });
+
+          			Object.defineProperty(result, name, { get: _.memoize(function() {
+              				var resdata = _.find(response.included, function(inc){ return inc.id === value.data.id;});
+			              if(resdata){
+			                return parseResourceDataObject(response, resdata);  
+			              }else{
+			                return {};
+			              }
+              
+            			})});  
+        		}
+      		}
 	});
 	return result;
 }
