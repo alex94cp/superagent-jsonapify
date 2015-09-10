@@ -27,35 +27,26 @@ function parseResourceDataObject(response, data) {
 		Object.defineProperty(result, name, { value: value });
 	});
 	_.each(data.relationships, function(value, name) {
-		if(_.isArray(value.data)){
-        		Object.defineProperty(result, name, { get: _.memoize(function() {
-                
-            			return _.chain(value.data)
-                    			.map(function(item){
-	                    			var resdata = _.find(response.included, function(inc){ return inc.id === item.id;});
-	                    			if(resdata){
-	                      				return parseResourceDataObject(response, resdata);
-	                    			}
-	                    		})
-	                    		.filter(function(item){ return item !== null; })
-	                    		.value();
-
-          		})});
-      		}else{
-        		if(value.data){
-          			Object.defineProperty(result, name + "_id", { value: value.data.id });
-
-          			Object.defineProperty(result, name, { get: _.memoize(function() {
-              				var resdata = _.find(response.included, function(inc){ return inc.id === value.data.id;});
-			              if(resdata){
-			                return parseResourceDataObject(response, resdata);  
-			              }else{
-			                return {};
-			              }
-              
-            			})});  
-        		}
-      		}
+		if (_.isArray(value.data)) {
+			Object.defineProperty(result, name, { get: _.memoize(function() {
+				return _(value.data).map(function(item) {
+					var resdata = _.find(response.included, function(inc) {
+						return inc.id === item.id;
+					});
+					if(resdata)
+						return parseResourceDataObject(response, resdata);
+				}).compact().value();
+			}) });
+		} else if (value.data) {
+			Object.defineProperty(result, name + '_id', { value: value.data.id });
+			Object.defineProperty(result, name, { get: _.memoize(function() {
+				var resdata = _.find(response.included, function(inc) {
+					return inc.id === value.data.id;
+				});
+				return resdata ? parseResourceDataObject(response, resdata)
+				               : null;
+			}) });
+		}
 	});
 	return result;
 }

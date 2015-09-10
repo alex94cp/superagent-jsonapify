@@ -26,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/alex94puchades/superagent-jsonapify/issues"
   },
-  "homepage": "https://github.com/alex94puchades/superagent-jsonapify#readme"
+  "homepage": "https://github.com/alex94puchades/superagent-jsonapify#readme",
+  "dependencies": {
+    "lodash": "^3.10.1"
+  }
 }
