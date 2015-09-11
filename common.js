@@ -18,11 +18,7 @@ function parseResourceData(response, data) {
 }
 
 function parseResourceDataObject(response, data) {
-	var result = {};
-	Object.defineProperties(result, {
-		id: { value: data.id },
-		type: { value: data.type },
-	});
+	var result = _.clone(data);
 	_.each(data.attributes, function(value, name) {
 		Object.defineProperty(result, name, { value: value });
 	});
@@ -36,7 +32,6 @@ function parseResourceDataObject(response, data) {
 				}).compact().value();
 			}) });
 		} else if (value) {
-			Object.defineProperty(result, name + '_id', { value: value.id });
 			Object.defineProperty(result, name, { get: _.memoize(function() {
 				var resdata = _.find(response.included, 'id', value.id);
 				return resdata ? parseResourceDataObject(response, resdata)
