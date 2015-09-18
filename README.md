@@ -14,7 +14,8 @@ superagentJsonapify(superagent);
 
 const request = superagent.get('/api/videos?include=comments')
   .then(function(response) {
-    const video = response.data[0];
+    const body = response.body;
+    const video = body.data[0];
     const comments = video.comments;
   });
 ```
