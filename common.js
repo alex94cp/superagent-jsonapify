@@ -1,11 +1,13 @@
 var _ = require('lodash');
 
-module.exports = function(text) {
+exports.parse = function(text) {
 	var response = JSON.parse(text);
 	if (!_.isUndefined(response.data))
 		response.data = parseResourceData(response, response.data);
 	return response;
 };
+
+exports.serialize = JSON.stringify;
 
 function parseResourceData(response, data) {
 	if (!data) {
