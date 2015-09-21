@@ -1,6 +1,6 @@
 {
   "name": "superagent-jsonapify",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A lightweight json-api client addon for superagent",
   "main": "index.js",
   "browser": "browser.js",
