@@ -22,23 +22,27 @@ function parseResourceData(response, data) {
 function parseResourceDataObject(response, data) {
 	var result = _.clone(data);
 	_.each(data.attributes, function(value, name) {
-		Object.defineProperty(result, name, { value: value });
+		Object.defineProperty(result, _.camelCase(name), { value: value });
 	});
 	_.each(data.relationships, function(value, name) {
 		if (_.isArray(value)) {
-			Object.defineProperty(result, name, { get: _.memoize(function() {
-				return _(value).map(function(related) {
-					var resdata = _.find(response.included, 'id', related.id);
-					if(resdata)
-						return parseResourceDataObject(response, resdata);
-				}).compact().value();
-			}) });
+			Object.defineProperty(result, _.camelCase(name), {
+				get: _.memoize(function() {
+					return _(value).map(function(related) {
+						var resdata = _.find(response.included, 'id', related.id);
+						if(resdata)
+							return parseResourceDataObject(response, resdata);
+					}).compact().value();
+				})
+			});
 		} else if (value) {
-			Object.defineProperty(result, name, { get: _.memoize(function() {
-				var resdata = _.find(response.included, 'id', value.id);
-				return resdata ? parseResourceDataObject(response, resdata)
-				               : null;
-			}) });
+			Object.defineProperty(result, _.camelCase(name), {
+				get: _.memoize(function() {
+					var resdata = _.find(response.included, 'id', value.id);
+					return resdata ? parseResourceDataObject(response, resdata)
+					               : null;
+				})
+			});
 		}
 	});
 	return result;
