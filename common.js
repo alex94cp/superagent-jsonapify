@@ -22,7 +22,7 @@ function parseResourceData(response, data) {
 function parseResourceDataObject(response, data) {
 	var result = _.clone(data);
 	_.each(data.attributes, function(value, name) {
-		Object.defineProperty(result, _.camelCase(name), { value: value });
+		Object.defineProperty(result, _.camelCase(name), { value: value, enumerable: true });
 	});
 	_.each(data.relationships, function(value, name) {
 		if (_.isArray(value.data)) {
@@ -33,7 +33,8 @@ function parseResourceDataObject(response, data) {
 						if(resdata)
 							return parseResourceDataObject(response, resdata);
 					}).compact().value();
-				})
+				}),
+				enumerable: true
 			});
 		} else if (value.data) {
 			Object.defineProperty(result, _.camelCase(name), {
@@ -41,7 +42,8 @@ function parseResourceDataObject(response, data) {
 					var resdata = _.find(response.included, 'id', value.data.id);
 					return resdata ? parseResourceDataObject(response, resdata)
 					               : null;
-				})
+				}),
+				enumerable: true
 			});
 		}
 	});
