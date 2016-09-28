@@ -5,7 +5,7 @@
   "main": "index.js",
   "browser": "browser.js",
   "scripts": {
-    "test": "mocha"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -29,5 +29,8 @@
   "homepage": "https://github.com/alex94puchades/superagent-jsonapify#readme",
   "dependencies": {
     "lodash": "^3.10.1"
+  },
+  "devDependencies": {
+    "jest-cli": "^15.1.1"
   }
 }
