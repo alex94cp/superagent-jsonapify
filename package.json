@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/alex94puchades/superagent-jsonapify#readme",
   "dependencies": {
-    "lodash": "^3.10.1"
+    "lodash": "^4.16.2"
   },
   "devDependencies": {
     "jest-cli": "^15.1.1"
