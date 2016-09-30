@@ -29,7 +29,9 @@ function parseResourceDataObject(response, data) {
 			Object.defineProperty(result, _.camelCase(name), {
 				get: _.memoize(function() {
 					return _(value.data).map(function(related) {
-						var resdata = _.find(response.included, 'id', related.id);
+						var resdata = _.find(response.included, function(included) {
+							return included.id === related.id && included.type === related.type;
+						});
 						if(resdata)
 							return parseResourceDataObject(response, resdata);
 					}).compact().value();
