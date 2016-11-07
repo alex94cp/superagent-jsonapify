@@ -41,7 +41,9 @@ function parseResourceDataObject(response, data) {
 		} else if (value.data) {
 			Object.defineProperty(result, _.camelCase(name), {
 				get: _.memoize(function() {
-					var resdata = _.find(response.included, 'id', value.data.id);
+					var resdata = _.find(response.included, function(included) {
+						return included.id === value.data.id && included.type === value.data.type;
+					});
 					return resdata ? parseResourceDataObject(response, resdata)
 					               : null;
 				}),
