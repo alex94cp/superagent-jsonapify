@@ -14,7 +14,7 @@ describe("parse", function() {
             id: "1",
             type: "users"
           }
-        }
+        },
         tags: {
           data: [
             {
@@ -60,14 +60,14 @@ describe("parse", function() {
 
   it("should parse json-api format json", function() {
     var result = common.parse(sampleJSON);
-    expect(result["data"]["creator"]).toEqual([{
+    expect(result["data"]["creator"]).toEqual({
       type: "users",
       id: "1",
       attributes: {
-        body: "example user 1"
+        name: "example user 1"
       },
-      body: "example user 1"
-    }]);
+      name: "example user 1"
+    });
     expect(result["data"]["tags"]).toEqual([{
       type: "tags",
       id: "1",
