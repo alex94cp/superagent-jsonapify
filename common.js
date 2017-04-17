@@ -38,7 +38,7 @@ function parseResourceDataObject(response, data) {
 		if (_isArray(value.data)) {
 			Object.defineProperty(result, _camelCase(name), {
 				get: _memoize(function() {
-					const related = _map(value.data, function(related) {
+					var related = _map(value.data, function(related) {
 						var resdata = _find(response.included, function(included) {
 							return included.id === related.id && included.type === related.type;
 						});
